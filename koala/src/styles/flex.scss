@@ -1,0 +1,29 @@
+.flex {
+    display: flex;
+}
+
+.flexCC {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flexHC {
+    display: flex;
+    justify-content: center;
+}
+
+.flexTC {
+    display: flex;
+    align-items: center;
+}
+
+.flexBT {
+    display: flex;
+    justify-content: space-between
+}
+
+.flexAR {
+    display: flex;
+    justify-content: space-around;
+}

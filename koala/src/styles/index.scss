@@ -1,0 +1,11 @@
+@import './flex.scss';
+@import './font.scss';
+@import "./variable";
+@import "./themes";
+
+body {
+    font-size: $font_medium;
+    @include bg_color();
+    @include font_color();
+    overflow: hidden;
+}
