@@ -24,7 +24,7 @@ const prop = defineProps({
     }
 })
 
-const emit = defineEmits(['finishRain'])
+const emit = defineEmits(['finishRain', 'finishCalc'])
 
 const timeStampFilter = (val: any, endTime: any) => {
     if (!val) return ' '
@@ -104,21 +104,9 @@ const finish = () => {
     clearInterval(timer2.value)
     timer2.value = null
     emit('finishRain')
-    // this.$parent.showRedBagLoading = true
-    // setTimeout(() => {
-    //     this.$parent.showRedBagLoading = false
-    //     gainRedBag({ red_packet_id: prop.rainInfo.red_packet_info.id, room_id: this.room_id }).then(res => {
-    //         this.$parent.dialogData = {
-    //             showDialog: true,
-    //             title: res.data.shell_amount ? `恭喜你获得了<span style="color: #F5A413">${res.data.shell_amount}贝壳</span>` : `十分不巧，您与${prop.rainInfo.type === 7 ? '糖果' : '红包'}擦身而过`,
-    //             dialogType: 'alert',
-    //             dialogStatus: res.data.shell_amount ? 'shell' : 'plz',
-    //             confirmBtn: '确认',
-    //             delayClose: 5000
-    //         }
-    //         this.$parent.showCandyRain = false
-    //     })
-    // }, 2000);
+    setTimeout(() => {
+        emit('finishCalc', getList.value)
+    }, 2000);
 }
 
 onMounted(() => {

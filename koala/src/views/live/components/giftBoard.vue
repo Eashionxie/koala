@@ -451,25 +451,6 @@ const selectStatus = ref(0)
 const chooseList: any = ref([])
 
 
-const sendData = ref({
-    product_id: '',
-    extra_data: {
-        recipient_ids: '',
-        room_id: -1,
-        gift_number: '',
-        user_identity: 4,
-        gift_scope: 0
-    }
-})
-const userTypeMap = ref({
-    BRIDEGROOM: 1,
-    BRIDE: 2,
-    CEREMONY_HOST: 3,
-    GUEST_FRIEND: 4,
-    GUEST_FEMALE: 5,
-    GUEST_MALE: 6
-})
-
 const emit = defineEmits(['sendGift', 'closeGiftBoard'])
 
 

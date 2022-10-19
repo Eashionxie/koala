@@ -6,6 +6,8 @@ import messageItem from './components/messageItem.vue'
 import GiftBanner from './components/giftBanner'
 import giftAnima from './components/giftAnima.vue'
 import candyRain from './components/candyRain.vue'
+import loading from './components/loading.vue'
+import Dialog from '../../components/dialog'
 
 const showCandyRain = ref(false)
 const showEmojiBoard = ref(false)
@@ -118,6 +120,7 @@ const animaListPlay = () => {
 }
 
 const rainInfo = ref()
+const showRedBagLoading = ref(false)
 
 const showCandy = () => {
     rainInfo.value = {
@@ -128,8 +131,20 @@ const showCandy = () => {
 }
 
 const finishRain = () => {
-    rainInfo.value = ''
+    showRedBagLoading.value = true
+}
+
+const finishCalc = (getList: any) => {
+    showRedBagLoading.value = false
     showCandyRain.value = false
+    Dialog({
+        showMask: true,
+        title: getList?.length ? `恭喜你获得了<span style="color: #F5A413">${getList.length * 10}贝壳</span>` : `十分不巧，您与${rainInfo.value.type === 7 ? '糖果' : '红包'}擦身而过`,
+        type: 'alert',
+        status: getList?.length ? 'shell' : 'plz',
+        confirmBtn: '确认'
+    })
+    rainInfo.value = ''
 }
 
 
@@ -231,7 +246,8 @@ const sendMessage = (msg: any) => {
         <gift-anima v-if="showGiftAnima && giftAnimaList.length" :item="giftAnimaList[0]" @animaListPlay="animaListPlay" />
         <emoji-board v-if="showEmojiBoard" @closeEmojiBoard="showEmojiBoard = false" @senExp="senExp" />
         <gift-board v-if="showGiftBoard" @closeGiftBoard="showGiftBoard = false" @sendGift="sendGift" />
-        <candy-rain v-if="showCandyRain" :rainInfo="rainInfo" @finishRain="finishRain" />
+        <candy-rain v-if="showCandyRain" :rainInfo="rainInfo" @finishRain="finishRain" @finishCalc="finishCalc" />
+        <loading v-if="showRedBagLoading" :rainInfo="rainInfo" />
     </div>
 </template>
 
