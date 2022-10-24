@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watchEffect } from 'vue';
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterView } from 'vue-router'
 
 const isDark = ref(false)
 if (localStorage.getItem('app_theme') === 'theme1') {

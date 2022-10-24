@@ -25,6 +25,15 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/live/index.vue'),
       meta: { title: '直播' }
+    },
+    {
+      path: '/fish',
+      name: 'fish',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/fish/index.vue'),
+      meta: { title: '摸鱼' }
     }
   ]
 })

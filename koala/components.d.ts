@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     Toast: typeof import('./src/components/toast/index.vue')['default']
     VanButton: typeof import('vant/es')['Button']
+    VanDatetimePicker: typeof import('vant/es')['DatetimePicker']
     VanSwitch: typeof import('vant/es')['Switch']
   }
 }

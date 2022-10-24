@@ -73,7 +73,7 @@ const drawPoints = () => {
         const rad = 2 * Math.PI / 12 * i
         const x = (0.5 * ctxWidth.value + Math.sin(rad) * (radius - 16))
         const y = (0.5 * ctxHeight.value - Math.cos(rad) * (radius - 16))
-        ctx.value.fillStyle = '#000'
+        ctx.value.fillStyle = themeMap[`${theme.value}_re`]
         ctx.value.fillText(v, x, y)
     });
     //画出秒针走动的60个点
@@ -83,14 +83,13 @@ const drawPoints = () => {
         const y = (0.5 * ctxHeight.value + Math.cos(rad) * (radius - 2))
         ctx.value.beginPath()
         if (i % 5 === 0) {   //整点的圆圈是黑色的，非整点的部分是灰色的
-            ctx.value.fillStyle = '#000'
+            ctx.value.fillStyle = themeMap[`${theme.value}_re`]
             ctx.value.arc(x, y, 3, 0, 2, 2 * Math.PI, false)
         } else {
             ctx.value.fillStyle = '#999'
             ctx.value.arc(x, y, 2, 0, 2, 2 * Math.PI, false)
         }
         ctx.value.fill()
-        
     }
 }
 
@@ -101,15 +100,15 @@ const drawHourHand = (hour: number, minute: number) => {
     const rotate_m = 2 * Math.PI / 12 / 60 * minute
 
     ctx.value.moveTo(
-        0.5 * ctxWidth.value - Math.sin(rotate_h + rotate_m) * 6,
-        0.5 * ctxWidth.value + Math.cos(rotate_h + rotate_m) * 6
+        0.5 * ctxWidth.value - Math.sin(rotate_h + rotate_m) * 8,
+        0.5 * ctxWidth.value + Math.cos(rotate_h + rotate_m) * 8
     )
     ctx.value.lineTo(
-        (0.5 * ctxWidth.value + Math.sin(rotate_h + rotate_m) * (radius - 60)),
-        (0.5 * ctxHeight.value - Math.cos(rotate_h + rotate_m) * (radius - 60))
+        (0.5 * ctxWidth.value + Math.sin(rotate_h + rotate_m) * (radius - 48)),
+        (0.5 * ctxHeight.value - Math.cos(rotate_h + rotate_m) * (radius - 48))
     )
     ctx.value.lineCap = 'round'
-    ctx.value.lineWidth = 6
+    ctx.value.lineWidth = 4
     ctx.value.strokeStyle = '#000'
     ctx.value.stroke()
 }
@@ -124,11 +123,11 @@ const drawMinuteHand = (minute: number) => {
         0.5 * ctxWidth.value + Math.cos(rotate_m) * 10
     )
     ctx.value.lineTo(
-        (0.5 * ctxWidth.value + Math.sin(rotate_m) * (radius - 45)),
-        (0.5 * ctxHeight.value - Math.cos(rotate_m) * (radius - 45))
+        (0.5 * ctxWidth.value + Math.sin(rotate_m) * (radius - 33)),
+        (0.5 * ctxHeight.value - Math.cos(rotate_m) * (radius - 33))
     )
     ctx.value.lineCap = 'round'
-    ctx.value.lineWidth = 4
+    ctx.value.lineWidth = 3
     ctx.value.strokeStyle = '#666'
     ctx.value.stroke()
 }
@@ -152,6 +151,13 @@ const drawSecondHand = (second: number) => {
     ctx.value.stroke()
 }
 
+const drawDot = () => {
+    ctx.value.beginPath()
+    ctx.value.fillStyle = '#fe4356'
+    ctx.value.arc(0.5 * ctxWidth.value, 0.5 * ctxHeight.value, 5, 0, 2 * Math.PI)
+    ctx.value.fill()
+}
+
 const drawHandler = () => {
     ctx.value.clearRect(0, 0, ctxWidth.value, ctxHeight.value)
     const timeNow = new Date()
@@ -159,6 +165,7 @@ const drawHandler = () => {
     drawHourHand(timeNow.getHours(), timeNow.getMinutes())
     drawMinuteHand(timeNow.getMinutes())
     drawSecondHand(timeNow.getSeconds())
+    drawDot()
     // ctx.value.restore()
 }
 
