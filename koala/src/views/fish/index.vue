@@ -7,15 +7,15 @@ import setting from './components/setting.vue'
 const unitMap = ['时', '分', '秒']
 const timeArr: any = ref([])
 const status = ref(0)
-const start1 = new Date().setHours(9, 30, 0, 0)
-const start2 = new Date().setHours(14, 0, 0, 0)
-const end1 = new Date().setHours(12, 0, 0, 0)
-const end2 = new Date().setHours(18, 30, 0, 0)
+const start1 = ref(new Date().setHours(9, 30, 0, 0))
+const start2 = ref(new Date().setHours(14, 0, 0, 0))
+const end1 = ref(new Date().setHours(12, 0, 0, 0))
+const end2 = ref(new Date().setHours(18, 30, 0, 0))
 let timer: any
 
 const calcTime = () => {
     const curTime = new Date().getTime()
-    const timeNodes = [start1, start2, end1, end2].sort((a, b) => a - b)
+    const timeNodes = [start1.value, start2.value, end1.value, end2.value].sort((a, b) => a - b)
     let curTimeNode: number = -1
     try {
         timeNodes.forEach((cur: number, i: number) => {
@@ -62,6 +62,14 @@ const toSetting = () => {
     showSetting.value = true
 }
 
+const saveSettings = ({ start1Arr, start2Arr, end1Arr, end2Arr }: any) => {
+    console.log(start1Arr)
+    start1.value = new Date().setHours(start1Arr[0], start1Arr[1], 0, 0)
+    start2.value = new Date().setHours(start2Arr[0], start2Arr[1], 0, 0)
+    end1.value = new Date().setHours(end1Arr[0], end1Arr[1], 0, 0)
+    end2.value = new Date().setHours(end2Arr[0], end2Arr[1], 0, 0)
+}
+
 calcTime()
 timer = setInterval(calcTime, 1000)
 
@@ -87,11 +95,18 @@ timer = setInterval(calcTime, 1000)
             马上就要开始摸鱼了
         </div>
         <clock />
-        <div>
+        <div style="text-align: center;">
             <button @click="toSetting">设置</button>
         </div>
         <Transition name="popR">
-            <setting v-if="showSetting" :start1="start1" :start2="start2" @closeSetting="showSetting = false" />
+            <setting
+                v-if="showSetting"
+                :start1="start1"
+                :start2="start2"
+                :end1="end1"
+                :end2="end2"
+                @saveSettings="saveSettings"
+                @closeSetting="showSetting = false" />
         </Transition>
     </div>
 </template>

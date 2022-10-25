@@ -3,24 +3,30 @@ import { defineEmits, ref, onMounted } from 'vue'
 // @ts-ignore
 import * as TWEEN from 'tween.js';
 
-const emit = defineEmits(['closeSetting'])
+const emit = defineEmits(['closeSetting', 'saveSettings'])
 const props = defineProps({
     start1: {
         type: Number
     },
     start2: {
         type: Number
-    }
+    },
+    end1: {},
+    end2: {},
 })
 
 const start1Time = ref()
 const start2Time = ref()
+const end1Time = ref()
+const end2Time = ref()
 const start1Arr: any = ref([])
 const start2Arr: any = ref([])
+const end1Arr: any = ref([])
+const end2Arr: any = ref([])
 const curPikeIndex = ref(0)
 const showTimePicker = ref(false)
-const pickValMap = [start1Time, start2Time]
-const pickArrMap = [start1Arr, start2Arr]
+const pickValMap = [start1Time, end2Time, end1Time, start2Time]
+const pickArrMap = [start1Arr, end2Arr, end1Arr, start2Arr]
 const pickHandler = (i: number) => {
     curPikeIndex.value = i
     showTimePicker.value = true
@@ -50,17 +56,31 @@ const close = () => {
     animate()
 }
 
+const saveConfig = () => {
+    emit('saveSettings', { start1Arr: start1Arr.value, start2Arr: start2Arr.value, end1Arr: end1Arr.value, end2Arr: end2Arr.value })
+}
+
 onMounted(() => {
     const st1 = new Date(Number(props.start1))
     const st2 = new Date(Number(props.start2))
+    const end1 = new Date(Number(props.end1))
+    const end2 = new Date(Number(props.end2))
     const st1_h = st1.getHours() > 9 ? st1.getHours() : `0${st1.getHours()}`
     const st1_m = st1.getMinutes() > 9 ? st1.getMinutes() : `0${st1.getMinutes()}`
     const st2_h = st2.getHours() > 9 ? st2.getHours() : `0${st2.getHours()}`
     const st2_m = st2.getMinutes() > 9 ? st2.getMinutes() : `0${st2.getMinutes()}`
+    const end1_h = end1.getHours() > 9 ? end1.getHours() : `0${end1.getHours()}`
+    const end1_m = end1.getMinutes() > 9 ? end1.getMinutes() : `0${end1.getMinutes()}`
+    const end2_h = end2.getHours() > 9 ? end2.getHours() : `0${end2.getHours()}`
+    const end2_m = end2.getMinutes() > 9 ? end2.getMinutes() : `0${end2.getMinutes()}`
     start1Arr.value = [st1_h, st1_m]
     start2Arr.value = [st2_h, st2_m]
+    end1Arr.value = [end1_h, end1_m]
+    end2Arr.value = [end2_h, end2_m]
     start1Time.value = start1Arr.value.join(':')
     start2Time.value = start2Arr.value.join(':')
+    end1Time.value = end1Arr.value.join(':')
+    end2Time.value = end2Arr.value.join(':')
 })
 </script>
 
@@ -80,9 +100,22 @@ onMounted(() => {
                 <div class="time-2">
                     <p class="label font14">下班时间</p>
                     <div class="value flexTC" @click="pickHandler(1)">
+                        <span v-for="i in end2Arr" :key="i">{{i}}</span>
+                    </div>
+                </div>
+                <div class="time-2">
+                    <p class="label font14">午休开始时间</p>
+                    <div class="value flexTC" @click="pickHandler(2)">
+                        <span v-for="i in end1Arr" :key="i">{{i}}</span>
+                    </div>
+                </div>
+                <div class="time-2">
+                    <p class="label font14">午休结束时间</p>
+                    <div class="value flexTC" @click="pickHandler(3)">
                         <span v-for="i in start2Arr" :key="i">{{i}}</span>
                     </div>
                 </div>
+                <button @click="saveConfig">保存</button>
             </div>
         </div>
         <div v-if="showTimePicker" class="time-picker" @click.self.stop="showTimePicker = false">
@@ -147,6 +180,13 @@ $clientW: calc(var(--vw_px) * 100);
                         }
                     }
                 }
+            }
+            button {
+                width: 78px;
+                height: 32px;
+                margin-top: 20px;
+                border-radius: 6px;
+                border: none;
             }
         }
     }
